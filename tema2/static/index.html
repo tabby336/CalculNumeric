@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tema 2 - Calcul Numeric</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+	<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<script src="/js.js" type="text/javascript" charset="utf-8" async defer></script>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+
+	<div class="card-panel hoverable alignement">
+		<form action="javascript:choleski()" method="get" accept-charset="utf-8">
+			<button class="btn btn-success green darken-2" type="submit">Cholesky Decomposition</button>
+		</form>
+		<div id ="choleski"> </div>
+	</div>
+
+	<div class="card-panel hoverable alignement">
+		<form action="javascript:determinant()" method="get" accept-charset="utf-8">
+			<button class="btn btn-success green darken-2" type="submit">Matrix determinant</button>
+		</form>
+		<div id ="determinant"> </div>
+	</div>
+
+	<div class="card-panel hoverable alignement">
+		<form action="javascript:solution()" method="get" accept-charset="utf-8">
+			<button class="btn btn-success green darken-2" type="submit">System solution</button>
+		</form>
+		<div id ="solution"> </div>
+	</div>
+
+	<div class="card-panel hoverable alignement">
+		<form action="javascript:lu()" method="get" accept-charset="utf-8">
+			<button class="btn btn-success green darken-2" type="submit">LU values</button>
+		</form>
+		<div id ="lu"> </div>
+	</div>
+
+	<div class="card-panel hoverable alignement">
+		<form action="javascript:norm()" method="get" accept-charset="utf-8">
+			<button class="btn btn-success green darken-2" type="submit">Norm</button>
+		</form>
+		<div id ="norm"> </div>
+	</div>
+</body>
+</html>

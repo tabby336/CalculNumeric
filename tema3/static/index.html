@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function ajax_call(element_id, endpoint) {
+            document.body.className = 'wait';
+            $(element_id).text('Processing the request...');
+            $.ajax({
+                contentType: 'application/json',
+                async: true,
+		        timeout: 1000000,
+                success: function(data){
+                    $(element_id).text(data.result);
+                     document.body.className = '';
+                },
+                error: function(){
+                    $(element_id).text("An error has occurred");
+                    document.body.className = '';
+                },
+                processData: false,
+                type: 'GET',
+		        url: endpoint
+            });
+        }
+        function requestSum() {
+            ajax_call('#sum', '/sum');
+        }
+        function requestProduct() {
+            ajax_call("#prod", '/product');
+        }
+        function requestVectorProduct(matrix) {
+            ajax_call("#vprod" + matrix, '/productVector?param='+matrix);
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <style type="text/css">
+        .customAlignement {
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .wait {
+            cursor: wait;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <div class="card-panel hoverable customAlignement">
+        <p>Is the sum between the matrixes from file a.txt and b.txt equal to the matrix from file aplusb.txt?</p>
+        <button class="btn waves-effect waves-light" onclick="requestSum()">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="sum"></span>
+        </div>
+    </div>
+
+    <div class="card-panel hoverable customAlignement">
+        <p>Is the product between the matrix from file a.txt and the vector (number_of_lines, number_of_lines -1, ..., 1) equal to the vector from file a.txt?</p>
+        <button class="btn waves-effect waves-light" onclick="requestVectorProduct('a')">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="vproda"></span>
+        </div>
+    </div>
+
+    <div class="card-panel hoverable customAlignement">
+        <p>Is the product between the matrix from file a.txt and the vector (number_of_lines, number_of_lines -1, ..., 1) equal to the vector from file a.txt?</p>
+        <button class="btn waves-effect waves-light" onclick="requestVectorProduct('b')">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="vprodb"></span>
+        </div>
+    </div>
+
+    <div class="card-panel hoverable customAlignement">
+        <p>Is the product between the matrixes from file a.txt and b.txt equal to the matrix from file aorib.txt?</p>
+        <button class="btn waves-effect waves-light" onclick="requestProduct()">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="prod"></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

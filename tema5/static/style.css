@@ -1,0 +1,11 @@
+.MathJax_Display { 
+    text-align: left !important;
+    display: inline !important;
+}
+
+.alignement {
+	width: 85%;
+  	margin-left: auto;
+  	margin-right: auto;
+  	position: relative;
+}
