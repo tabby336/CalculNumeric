@@ -1,6 +1,8 @@
 import random
 import numpy as np
 
+EPS = 0.000000001
+
 def generate_simetric_matrix(n):
   random.seed(10)
   matrix = [[0 for j in range(n)] for i in range(n)]
@@ -18,15 +20,6 @@ def generate_vector(n):
 def euclidian_norm(v):
   return np.linalg.norm(v)
 
-# print(np.dot(x, y))
-# print(y*10)
-# n=3
-# A = generate_simetric_matrix(n)
-# x = generate_vector(n)
-# print(A)
-# print(x)
-# print(np.dot(A,x))
-
 
 def solution(n):
   A = generate_simetric_matrix(n)
@@ -43,14 +36,55 @@ def solution(n):
     w = np.dot(A, v)
     lambda_value = np.dot(w, v)
     k += 1
-    # print ("**************")
-    # print (euclidian_norm(w - lambda_value * v))
-    # print (v)
-    # print (w)
   print (k)
   print (lambda_value)
 
-solution(4)
+
+def single_value(a):
+  U, S, V = np.linalg.svd(a, full_matrices=True)
+  return [x for x in S if x > -EPS]
+
+def rang(a):
+  single_values = single_value(a)
+  return len([x for x in single_values if abs(x) > EPS])
+
+def conditional_number(a):
+  single_values = single_value(a)
+  return max(single_values)/min([x for x in single_values if abs(x) > EPS])
+
+def norm(a):
+  U, S, V = np.linalg.svd(a, full_matrices=True)
+  b = np.zeros(shape=a.shape)
+  for i in range(min(a.shape)):
+    b[i][i] = S[i]
+  sol = (U*b*V)
+  print(a.item(1,1))
+  infinit_norm = -1
+  for i in range(a.shape[0]):
+    for j in range(a.shape[1]):
+      infinit_norm = max([infinit_norm, abs(sol.item((i, j)) - a.item((i, j)))])
+  return infinit_norm
+
+def get_column(a, i):
+  return a.transpose()[i].transpose()
+
+
+
+def compute_As(a, s):
+  if (rang(a) < s):
+    return None
+  U, S, V = np.linalg.svd(a, full_matrices=True)
+  As = np.zeros(shape=a.shape)
+  for i in range(s):
+    u = get_column(U, i)
+    v = get_column(V, i).transpose()
+    As +=  S[i] * u * v
+  return As
+
+
+
+a = np.matrix([[1, 2, 3], [100, 200, 6], [1, 2, 9]])
+print(compute_As(a, 3))
 
 
 
