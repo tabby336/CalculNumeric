@@ -63,6 +63,8 @@ def horner(p, rad):
 		rez.append(rez[-1] * rad + p[i])
 	return (np.poly1d(rez), rez[-1] * rad + p[0])
 
+
+
 poly = [1, 2, 1]
 p = np.poly1d(poly)
 print(find_roots(p))
