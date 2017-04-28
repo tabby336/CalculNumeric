@@ -40,7 +40,8 @@ def find_root(p, x):
 	return x
 
 
-def find_roots(p):
+def find_roots(poly):
+	p = np.poly1d(poly)
 	res = []
 	q = p
 	x = 10
@@ -66,6 +67,5 @@ def horner(p, rad):
 
 
 poly = [1, 2, 1]
-p = np.poly1d(poly)
-print(find_roots(p))
+# print(find_roots(p))
 

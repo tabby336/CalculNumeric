@@ -47,6 +47,6 @@ def get_minimum_point(der, der2):
 	print(i)
 	return None
 
-print(get_minimum_point(der_first, der2_first))
-print(get_minimum_point(der_second, der2_second))
-print(get_minimum_point(der_third, der2_third))
+# print(get_minimum_point(der_first, der2_first))
+# print(get_minimum_point(der_second, der2_second))
+# print(get_minimum_point(der_third, der2_third))

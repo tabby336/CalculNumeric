@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function ajax_call(element_id, endpoint, req_data) {
+            document.body.className = 'wait';
+            $(element_id).text('Processing the request...');
+            $.ajax({
+                async: true,
+		        timeout: 1000000000,
+                success: function(data){
+                    console.log(data.result)
+                    var res = ""
+                    for (var i = 0; i < data.result.length; ++i) {
+                        res += data.result[i] + " "
+                    }
+                    $(element_id).html(res);
+                    document.body.className = '';
+                },
+                error: function(){
+                    $(element_id).text("An error has occurred");
+                    document.body.className = '';
+                },
+                processData: false,
+                type: "POST",
+                data: JSON.stringify(req_data),
+                contentType: "application/json",
+		        url: endpoint
+            });
+        }
+        function request1() {
+            ajax_call('#result1', '/info1', {});
+        }
+        function request2() {
+            ajax_call('#result2', '/info2', {});
+        }
+        function request3() {
+            ajax_call('#result3', '/info3', {});
+        }
+        function request4() {
+            ajax_call('#result4', '/info4', {"data": $('#matrix').val()});
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+    <style type="text/css">
+        .customAlignement {
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            position: relative;
+        }
+        .wait {
+            cursor: wait;
+        }
+    </style>
+</head>
+<body>
+
+<div>
+    <div class="card-panel hoverable customAlignement">
+        <p>Minimum point for f(x) = x^2 - 4*x + 3 </p>
+        <button class="btn waves-effect waves-light" onclick="request1()">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="result1"></span>
+        </div>
+    </div>
+    <div class="card-panel hoverable customAlignement">
+        <p>Minimum point for f(x) = x^2 - e^x </p>
+        <button class="btn waves-effect waves-light" onclick="request2()">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="result2"></span>
+        </div>
+    </div>
+    <div class="card-panel hoverable customAlignement">
+        <p>Minimum point for f(x) = x^4 - 6 * x^3 + 13 * x^2 - 12x + 4 </p>
+        <button class="btn waves-effect waves-light" onclick="request3()">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="result3"></span>
+        </div>
+    </div>
+    <div class="card-panel hoverable customAlignement">
+        <p>Get poly roots. You should write the poly coefficients in descendet order of the x power separated by space.<span><input type="text" id="matrix"/></span></p>
+        <button class="btn waves-effect waves-light" onclick="request4()">Get answer</button></br>
+        <div>
+            <b>Answer: </b><span id="result4"></span>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
