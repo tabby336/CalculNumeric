@@ -43,6 +43,15 @@ def lagrange():
 	print("***************")
 	return jsonify({"value":compute_value(data["value"], data["lower"], data["upper"], data["num"], data["function"])})
 
+@app.route('/periodic', methods = ['POST'])
+def periodic():
+	return jsonify(grafic_b(0, 31 * math.pi / 16, 20, second_periodic))
+
+@app.route('/periodicCompute', methods = ['POST'])
+def periodicCompute():
+	value = request.get_json()["value"]
+	print(value)
+	return jsonify({"value": solve_b(float(value), 0, 31 * math.pi / 16, 20, second_periodic)})
 
 if __name__ == '__main__':
     app.run(debug = True)
