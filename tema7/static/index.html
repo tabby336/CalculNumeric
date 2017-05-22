@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<style>
+	#chartdiv {
+		width	: 100%;
+		height	: 500px;
+	}																		
+	</style>
+
+	<script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+	<script src="https://www.amcharts.com/lib/3/serial.js"></script>
+	<script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+	<link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+	<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+	<title>Tema 7 - Calcul Numeric</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
+	<script src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.js"></script>
+	<script src="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
+	<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.1/js/materialize.min.js"></script>
+	<script src="/js.js" type="text/javascript" charset="utf-8" async defer></script>
+	<link rel="stylesheet" type="text/css" href="/style.css">
+</head>
+<body>
+
+	<script>
+var chartData = generateChartData();
+
+var chart = AmCharts.makeChart("chartdiv", {
+    "type": "serial",
+    "theme": "light",
+    "legend": {
+        "useGraphSettings": true
+    },
+    "dataProvider": chartData,
+    "synchronizeGrid":true,
+    "valueAxes": [{
+        "id":"v1",
+        "axisColor": "#FF6600",
+        "axisThickness": 2,
+        "axisAlpha": 1,
+        "position": "left"
+    }, {
+        "id":"v3",
+        "axisColor": "#B0DE09",
+        "axisThickness": 2,
+        "gridAlpha": 0,
+        "offset": 50,
+        "axisAlpha": 1,
+        "position": "left"
+    }],
+    "graphs": [{
+        "valueAxis": "v1",
+        "lineColor": "#FF6600",
+        "bullet": "round",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "red line",
+        "type": "smoothedLine",
+        "valueField": "visits",
+		"fillAlphas": 0
+    }, {
+        "valueAxis": "v3",
+        "lineColor": "#B0DE09",
+        "bullet": "triangleUp",
+        "bulletBorderThickness": 1,
+        "hideBulletsCount": 30,
+        "title": "green line",
+        "type": "smoothedLine",
+        "valueField": "views",
+		"fillAlphas": 0
+    }],
+    "chartScrollbar": {},
+    "chartCursor": {
+        "cursorPosition": "mouse"
+    },
+    "categoryField": "date",
+    "categoryAxis": {
+        "parseDates": true,
+        "axisColor": "#DADADA",
+        "minorGridEnabled": true
+    },
+    "export": {
+    	"enabled": true,
+        "position": "bottom-right"
+     }
+});
+
+chart.addListener("dataUpdated", zoomChart);
+zoomChart();
+
+
+// generate some random data, quite different range
+function generateChartData() {
+    var chartData = [];
+    var firstDate = new Date();
+    firstDate.setDate(firstDate.getDate() - 100);
+
+    for (var i = 0; i < 100; i++) {
+        // we create date objects here. In your data, you can have date strings
+        // and then set format of your dates using chart.dataDateFormat property,
+        // however when possible, use date objects, as this will speed up chart rendering.
+        var newDate = new Date(firstDate);
+        newDate.setDate(newDate.getDate() + i);
+
+        var visits = Math.round(Math.sin(i * 5) * i);
+
+        var views = Math.round(Math.random() * 6000) + i * 4;
+
+        chartData.push({
+            date: newDate,
+            visits: visits,
+            views: views
+        });
+    }
+    return chartData;
+}
+
+function zoomChart(){
+    chart.zoomToIndexes(chart.dataProvider.length - 20, chart.dataProvider.length - 1);
+}
+</script>
+
+
+
+	<div class="card-panel hoverable alignement">
+		<div class="row">
+	    <form class="col s12" action="javascript:sendParams()">
+	      <div class="row">
+	        <div class="input-field col s1">
+	          <input placeholder=" " id="lowerBound" type="text">
+	          <label for="lowerBound">Lower bound</label>
+	        </div>
+	        <div class="input-field col s1">
+	          <input placeholder=" " id="upperBound" type="text">
+	          <label for="upperBound">Upper bound</label>
+	        </div>
+	        <div class="input-field col s1">
+	          <input placeholder=" " id="numOfNums" type="text">
+	          <label for="numOfNums">Num of values</label>
+	        </div>
+	        <div class="input-field col s3">
+	          <input placeholder=" " id="function" type="text">
+	          <label for="function">Function</label>
+	        </div>
+	      </div>
+	      <button class="btn btn-success green darken-2" type="submit">Interpolate</button>
+	    </form>
+	  </div>
+	</div>
+
+	<div class="card-panel hoverable alignement">
+		<div class="row">
+	    <form class="col s12" action="javascript:calculateFunctionValue()">
+	      <div class="row">
+	        <div class="input-field col s1">
+	          <input placeholder=" " id="xvalue" type="text">
+	          <label for="x value">x value</label>
+	        </div>
+	      </div>
+	      <button class="btn btn-success green darken-2" type="submit">Approximate</button>
+	    </form>
+	  </div>
+	</div>
+
+
+	<div id="chartdiv"></div>
+
+	<div id="response"></div>
+       
+
+
+
+</body>
+</html>
