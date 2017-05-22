@@ -29,17 +29,17 @@ function zoomChart(){
 
 function sendParams() {
 	data = {}
-	// data["lower"] = $('#lowerBound').val();
-	// data["upper"] = $('#upperBound').val();
-	// data["function"] = $('#function').val();
-	// data["num"] = $('#numOfNums').val();
+	data["lower"] = $('#lowerBound').val();
+	data["upper"] = $('#upperBound').val();
+	data["function"] = $('#function').val();
+	data["num"] = $('#numOfNums').val();
 	
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
 		url: "/parameters",
 		async: false,
-		// data: JSON.stringify(data),
+		data: JSON.stringify(data),
 		success: function(resp) {
 			console.log(resp);
 			// resp = JSON.parse(resp);
@@ -117,15 +117,21 @@ function sendParams() {
 }
 
 function calculateFunctionValue() {
-	value = $('#xvalue').val();
+	data = {}
+	data["lower"] = $('#lowerBound').val();
+	data["upper"] = $('#upperBound').val();
+	data["function"] = $('#function').val();
+	data["num"] = $('#numOfNums').val();
+	data["value"] = $('#xvalue').val();
 
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
 		url: "/lagrange",
 		async: false,
-		data: JSON.stringify('{ "value":"' + value +'"}'),
+		data: JSON.stringify(data),
 		success: function(resp) {
+			$("#result").html(resp["value"]);
 			console.log(resp);
 		}
 	});

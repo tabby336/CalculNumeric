@@ -16,7 +16,32 @@ def root():
 
 @app.route('/parameters', methods = ['POST'])
 def send_params():
-    return jsonify(values(-2,10,4,polinom))
+	data = request.get_json()
+	data["lower"] = float(data["lower"])
+	data["upper"] = float(data["upper"])
+	data["num"] = int(data["num"])
+	coef = [float(x) for x in data["function"].split(" ")]
+	coef.reverse();
+	data["function"] = coef
+	print("***************")
+	print(data)
+	print("***************")
+	return jsonify(values(data["lower"], data["upper"], data["num"], data["function"]))
+
+@app.route('/lagrange', methods = ['POST'])
+def lagrange():
+	data = request.get_json()
+	data["lower"] = float(data["lower"])
+	data["upper"] = float(data["upper"])
+	data["num"] = int(data["num"])
+	data["value"] = float(data["value"])
+	coef = [float(x) for x in data["function"].split(" ")]
+	coef.reverse();
+	data["function"] = coef
+	print("***************")
+	print(data)
+	print("***************")
+	return jsonify({"value":compute_value(data["value"], data["lower"], data["upper"], data["num"], data["function"])})
 
 
 if __name__ == '__main__':
