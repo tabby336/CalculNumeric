@@ -44,7 +44,7 @@ def compute_value(x, x0, xn, n, func):
 		Lprec = L
 	return L
 
-def worst_approximation(x0, xn, n, func):
+def values(x0, xn, n, func):
 	x = x0
 	display = {"expected": [], "real": [], "l_infinit": -100}
 	while x < xn:
@@ -57,7 +57,7 @@ def worst_approximation(x0, xn, n, func):
 			display["l_infinit"] = abs(computed - expected)
 	return display
 
-print(worst_approximation(1, 5, 4, polinom))
+# print(worst_approximation(1, 5, 4, polinom))
 
 # n = 4
 # print(get_x(1, 7, n, polinom))
