@@ -2,14 +2,30 @@ import numpy as np
 import cmath
 import random
 
-EPS = 0.00000000001
+EPS = 0.01
 
 def cmp(x, y):
+	global EPS
 	d = np.absolute(x) - np.absolute(y)
+	# print(d)
+	# raw_input("Paam")
 	if (d < -EPS):
 		return -1
 	elif (d > EPS):
 		return 1
+	# print("Buna ziua")
+	return 0
+
+def cmp1(x, y):
+	global EPS
+	d = np.absolute(x) - np.absolute(y)
+	print(d)
+	# raw_input("Paam")
+	if (d < -EPS):
+		return -1
+	elif (d > EPS):
+		return 1
+	# print("Buna ziua")
 	return 0
 
 def get_horner_reminder(p, x):
@@ -41,20 +57,25 @@ def find_root(p, x):
 
 
 def find_roots(poly):
+	import random
 	p = np.poly1d(poly)
 	res = []
 	q = p
-	x = 10
+	x = random.random()
+	print(p)
 	while (len(q) > 1 and x > 0):
 		z = find_root(q, x)
-		if (abs(np.imag(z)) < 0.00001):
-			print(abs(np.imag(z)) < 0.00001)
+		if (abs(np.imag(z)) < 0.01):
+			# print(abs(np.imag(z)) < 0.00001)
 			z = float(np.real(z))
-		q = horner(q, z)[0]
-		print(q)
-		print(z)
-		res.append(z)
-		x -= 1
+		print(cmp1(horner(q, z)[1], 0))
+		x = random.random()
+		if (cmp1(horner(q, z)[1], 0) == 0):
+			print("*********************")
+			print(z)
+			print(horner(q, z))
+			res.append(z)
+			q = horner(q, z)[0]
 	res.append(q[0]*(-1)/q[1])
 	return res
 
@@ -66,6 +87,8 @@ def horner(p, rad):
 
 
 
-poly = [1, 2, 1]
-# print(find_roots(p))
+poly = [1, 1, 1, 1, 1, 1]
+p = np.poly1d(poly)
+import random
+print(find_roots(p))
 

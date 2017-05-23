@@ -13,6 +13,12 @@ def generate_simetric_matrix(n):
       matrix[i][j] = random.randint(1, 9)
   return np.array(matrix)
 
+
+def generate_sparse_matrix():
+  import scipy.sparse as sparse
+  print sparse.rand(10, 10, density=0.1)
+
+
 def generate_vector(n):
   random.seed(1)
   return np.array([random.randint(1, 9) for i in range(n)])
@@ -36,8 +42,6 @@ def solution(n):
     w = np.dot(A, v)
     lambda_value = np.dot(w, v)
     k += 1
-  print (k)
-  print (lambda_value)
 
 
 def single_value(a):
@@ -58,7 +62,7 @@ def norm(a):
   for i in range(min(a.shape)):
     b[i][i] = S[i]
   sol = (U*b*V)
-  print(a.item(1,1))
+  # print(a.item(1,1))
   infinit_norm = -1
   for i in range(a.shape[0]):
     for j in range(a.shape[1]):
@@ -68,13 +72,13 @@ def norm(a):
 def get_column(a, i):
   return a.transpose()[i].transpose()
 
-
-
 def compute_As(a, s):
-  if (rang(a) < s):
+  # print("In matricea a ", rang(a))
+  if (rang(a) <= s):
     return None
   U, S, V = np.linalg.svd(a, full_matrices=True)
   As = np.zeros(shape=a.shape)
+  # print(a)
   for i in range(s):
     u = get_column(U, i)
     v = get_column(V, i).transpose()
@@ -83,9 +87,9 @@ def compute_As(a, s):
 
 
 
-a = np.matrix([[1, 2, 3], [100, 200, 6], [1, 2, 9]])
-print(compute_As(a, 3))
-
-
-
-
+# a = np.matrix([[1, 2, 3], [100, 200, 6], [1, 2, 9]])
+# print("Valori singulare: ", single_value(a))
+# print("Rang matrice: ", rang(a))
+# print("Numar de conditionare: ", conditional_number(a))
+# print("Norma infinit: ", norm(a))
+# print(compute_As(a, 2))

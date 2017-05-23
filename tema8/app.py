@@ -12,15 +12,14 @@ def root():
 
 @app.route('/info1', methods = ['POST'])
 def minimum_point1():
-    return jsonify({ "result": puncte_minim.get_minimum_point(puncte_minim.der_first, puncte_minim.der2_first)})
-
+    return jsonify({ "result": [puncte_minim.get_minimum_point(puncte_minim.der_first, puncte_minim.der2_first)]})
 @app.route('/info2', methods = ['POST'])
 def minimum_point2():
-    return jsonify({ "result": puncte_minim.get_minimum_point(puncte_minim.der_second, puncte_minim.der2_second)})
+    return jsonify({ "result": [puncte_minim.get_minimum_point(puncte_minim.der_second, puncte_minim.der2_second)]})
 
 @app.route('/info3', methods = ['POST'])
 def minimum_point3():
-    return jsonify({ "result": puncte_minim.get_minimum_point(puncte_minim.der_third, puncte_minim.der2_third)})
+    return jsonify({ "result": [puncte_minim.get_minimum_point(puncte_minim.der_third, puncte_minim.der2_third)]})
 
 
 @app.route('/info4', methods = ['POST'])
@@ -44,4 +43,4 @@ def minimum_point4():
 
 
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug = True, port=5001)

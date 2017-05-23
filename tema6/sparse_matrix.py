@@ -24,7 +24,7 @@ class SparseMatrix:
       self.number_of_elements = len(self.values)
     else:
       self.number_of_lines = number_of_lines
-      self.check_value = check_value
+      self.values = values
 
   def get_order_after_columns(self):
     aux = [x for x in self.values if x[1] >= 0]
@@ -73,12 +73,17 @@ def multiply_matrix_vector(A, b, n):
       sol.append(elem)
       elem = 0
     else:
-      elem += A[ia][2] * b[A[ia][1]];
+      try:
+        elem += A[ia][2] * b[A[ia][1]];
+      except:
+        # print("Except: ", len(b), A[ia][1])
+        pass
     ia += 1
   return sol
 
 def dot_prod(a, b):
   rez = 0
+  # print("len a len b", len(a), len(b))
   for i in range(len(a)):
     rez += a[i] * b[i];
   return rez
@@ -86,30 +91,65 @@ def dot_prod(a, b):
 def vector_diff(a, b):
   return [a[i] - b[i] for i in range(len(a))]
 
-def solution():
-  A = read_sparse_matrix("m_rar_sim_2017.txt")
+def solution(A):
   # print(matrix.values[0:10])
   # print(matrix.get_order_after_columns()[0:10])
   if (is_sim(A.values, A.get_order_after_columns(), A.number_of_lines)): 
     x = generate_vector(A.number_of_lines)
     v = multiply_vector_with_scalar(x, 1.0 / euclidian_norm(x))
+    # print("vector: ", type(v[6]))
+    # print("len v", len(v))
     w = multiply_matrix_vector(A.values, v, A.number_of_lines)
+    # print(len(w))
     lambda_value = dot_prod(w, v)
     k = 0
     k_max = 1000
     eps = 0.00001
-    print (A)
+    # print (A)
     while (euclidian_norm(vector_diff(w, multiply_vector_with_scalar(v, lambda_value))) > A.number_of_lines * eps and k < k_max):
       v = multiply_vector_with_scalar(w, 1.0 / euclidian_norm(w))
       w = multiply_matrix_vector(A.values, v, A.number_of_lines)
       lambda_value = dot_prod(w, v)
       k += 1
-      if (k % 10 == 0):
-        print (euclidian_norm(vector_diff(w, multiply_vector_with_scalar(v, lambda_value))))
-    print (k)
-    print (lambda_value)
+      # if (k % 10 == 0):
+      #   print (euclidian_norm(vector_diff(w, multiply_vector_with_scalar(v, lambda_value))))
+    # print (k)
+    print ("Valoare proprie: ", lambda_value)
+    print ("Norma: ", euclidian_norm(vector_diff(w, multiply_vector_with_scalar(v, lambda_value))))
     # print(multiply_matrix_vector([(0, 0, 3), (0,1,1), (1, -1, 0), (1, 1, 2)], [1, 2], 1))
   else:
     print("nu e simterica")
 
-solution()
+
+
+def sparseSym(rank, density=0.1, format='coo', dtype=None, random_state=None):
+  import scipy.sparse
+  # density = 1000 / rank * rank
+  A = scipy.sparse.rand(rank, rank, density=density, format=format, dtype=dtype, random_state=random_state)
+  return (A + A.transpose())/2
+
+
+def generate_simetric_sparse_matrix(n):
+  # print("generate_simetric_sparse_matrix aici")
+  x = sparseSym(n)
+  # print x
+  count = 0
+  my_list = []
+  for a in x:
+    my_list.append((count, -count, 0))
+    if len(a.data):
+      for i in range(len(a.data)):
+        my_list.append((count, a.indices[i], a.data[i]))
+    count += 1
+  my_list.append((n, -n, 0))
+  sm = SparseMatrix(n, my_list, 1)
+  return sm
+
+A = read_sparse_matrix("m_rar_sim_2017.txt")
+print("Din fisierul dat:")
+solution(A)
+
+B = generate_simetric_sparse_matrix(7)
+print("Matrice generata: ")
+solution(B)
+
