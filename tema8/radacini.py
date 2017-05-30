@@ -2,7 +2,7 @@ import numpy as np
 import cmath
 import random
 
-EPS = 0.01
+EPS = 0.1
 
 def cmp(x, y):
 	global EPS
@@ -58,6 +58,7 @@ def find_root(p, x):
 
 def find_roots(poly):
 	import random
+	global EPS
 	p = np.poly1d(poly)
 	res = []
 	q = p
@@ -65,7 +66,7 @@ def find_roots(poly):
 	print(p)
 	while (len(q) > 1 and x > 0):
 		z = find_root(q, x)
-		if (abs(np.imag(z)) < 0.01):
+		if (abs(np.imag(z)) < 0.1):
 			# print(abs(np.imag(z)) < 0.00001)
 			z = float(np.real(z))
 		print(cmp1(horner(q, z)[1], 0))

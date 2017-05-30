@@ -1,4 +1,4 @@
-#!flask/bin/python
+ #!flask/bin/python
 from flask import Flask, jsonify, abort, request, make_response, url_for
 import puncte_minim
 import radacini
